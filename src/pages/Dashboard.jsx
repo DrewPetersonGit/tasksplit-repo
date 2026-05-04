@@ -4,14 +4,15 @@ import Badge from '../components/Badge'
 import { useApp } from '../context/AppContext'
 
 export default function Dashboard() {
-  const { currentUser, getMyTasks, getMyProjects, getProjectProgress, getUserName } = useApp()
+  const { profile, getMyTasks, getMyProjects, getProjectProgress } = useApp()
   const myTasks    = getMyTasks()
   const myProjects = getMyProjects()
+  const firstName  = profile?.name?.split(' ')[0] ?? '…'
 
   return (
     <Layout>
       <h1 className="font-display font-extrabold text-2xl text-gray-900 mb-8">
-        👋 Welcome back, {currentUser?.name.split(' ')[0]}
+        👋 Welcome back, {firstName}
       </h1>
 
       {/* My Tasks */}
@@ -26,11 +27,11 @@ export default function Dashboard() {
           </div>
           {myTasks.length === 0 ? (
             <p className="text-center text-gray-400 text-sm py-10">No tasks assigned to you yet.</p>
-          ) : myTasks.map((t, i) => (
+          ) : myTasks.slice(0, 5).map((t, i) => (
             <div key={t.id} className={`grid grid-cols-5 text-sm px-5 py-3.5 border-b border-amber-50 hover:bg-orange-50/30 items-center ${i % 2 === 1 ? 'bg-amber-50/30' : ''}`}>
               <span className="text-gray-800 font-medium truncate pr-2">{t.name}</span>
-              <span className="text-gray-500 text-xs">{t.projectId}</span>
-              <span className="text-gray-500 text-xs">{t.dueDate}</span>
+              <span className="text-gray-500 text-xs truncate">{t.project_id}</span>
+              <span className="text-gray-500 text-xs">{t.due_date}</span>
               <span className="text-gray-500 text-xs">{t.effort}</span>
               <Badge label={t.status}/>
             </div>
@@ -50,12 +51,15 @@ export default function Dashboard() {
         {myProjects.length === 0 ? (
           <div className="bg-white rounded-2xl border border-amber-100 shadow-sm p-10 text-center">
             <p className="text-gray-400 text-sm mb-4">You haven't joined any projects yet.</p>
-            <Link to="/projects/new" className="text-orange-500 font-semibold hover:text-orange-400 text-sm">Create your first project →</Link>
+            <Link to="/projects/new" className="text-orange-500 font-semibold text-sm">
+              Create your first project →
+            </Link>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 gap-4">
             {myProjects.map(p => {
               const progress = getProjectProgress(p.id)
+              const members  = p.project_members?.length ?? 0
               return (
                 <Link key={p.id} to={`/projects/${p.id}`}
                   className="bg-white rounded-2xl border border-amber-100 shadow-sm p-6 hover:shadow-md transition-shadow block">
@@ -63,7 +67,7 @@ export default function Dashboard() {
                     <p className="font-display font-bold text-gray-900 text-base leading-tight">{p.name}</p>
                     <Badge label={p.status}/>
                   </div>
-                  <p className="text-gray-400 text-xs mb-5">Due {p.dueDate} · {p.memberIds.length} members</p>
+                  <p className="text-gray-400 text-xs mb-5">Due {p.due_date} · {members} members</p>
                   <div className="h-2.5 bg-amber-100 rounded-full overflow-hidden mb-2">
                     <div className="h-2.5 bg-orange-400 rounded-full transition-all" style={{ width: `${progress}%` }}/>
                   </div>

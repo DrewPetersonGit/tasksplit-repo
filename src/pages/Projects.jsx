@@ -7,8 +7,12 @@ import { useApp } from '../context/AppContext'
 export default function Projects() {
   const { getMyProjects, getProjectProgress, getProjectTasks } = useApp()
   const [search, setSearch] = useState('')
-  const projects = getMyProjects().filter(p =>
-    p.name.toLowerCase().includes(search.toLowerCase())
+
+  // ✅ ALWAYS default to []
+  const allProjects = getMyProjects() ?? []
+
+  const projects = allProjects.filter(p =>
+    (p.name ?? '').toLowerCase().includes(search.toLowerCase())
   )
 
   return (
@@ -49,19 +53,35 @@ export default function Projects() {
             {search ? 'No projects match your search.' : 'No projects yet.'}
           </p>
         ) : projects.map((p, i) => {
-          const taskCount = getProjectTasks(p.id).length
+          // ✅ SAFE calls
+          const taskCount = getProjectTasks(p.id)?.length ?? 0
           const progress  = getProjectProgress(p.id)
+
           return (
             <div
               key={p.id}
               className={`grid text-sm px-5 py-4 border-b border-amber-50 hover:bg-orange-50/30 items-center transition-colors ${i % 2 === 1 ? 'bg-amber-50/20' : ''}`}
               style={{ gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr 80px' }}
             >
-              <span className="font-medium text-gray-900 truncate pr-2">{p.name}</span>
-              <span className="text-gray-500 text-xs">{p.dueDate}</span>
-              <span className="text-gray-500 text-xs">{p.memberIds.length}</span>
-              <span className="text-gray-500 text-xs">{taskCount}</span>
-              <Badge label={p.status} />
+              <span className="font-medium text-gray-900 truncate pr-2">
+                {p.name ?? 'Untitled'}
+              </span>
+
+              <span className="text-gray-500 text-xs">
+                {p.dueDate ?? '—'}
+              </span>
+
+              {/* ✅ THIS WAS YOUR CRASH */}
+              <span className="text-gray-500 text-xs">
+                {p.memberIds?.length ?? 0}
+              </span>
+
+              <span className="text-gray-500 text-xs">
+                {taskCount}
+              </span>
+
+              <Badge label={p.status ?? 'active'} />
+
               <Link
                 to={`/projects/${p.id}`}
                 className="text-xs text-orange-500 font-semibold hover:text-orange-400 underline underline-offset-2"
