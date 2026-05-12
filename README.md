@@ -1,77 +1,39 @@
-# ✦ TaskSplit
+# TaskSplit ✨
 
-> Clarity and accountability for group work.
+Collaborative task management web application built with React, Supabase, and Azure.
 
-TaskSplit is a student project management tool that helps teams assign tasks, track deadlines, and stay accountable. Built with React + Vite + Tailwind CSS.
+## Features
+- User authentication
+- Project creation
+- Task assignment
+- Team collaboration
 
----
+## Tech Stack
+- React + Vite
+- Supabase
+- Azure Static Web Apps
 
-## Getting Started
+## Live Website
+https://www.task-split.app
 
-### Prerequisites
-- Node.js 18+
-- npm 9+
+## Running Locally
 
-### Install & Run
 ```bash
 npm install
 npm run dev
 ```
-Opens at `http://localhost:5173/tasksplit/`
 
-### Demo Login
-```
-Email:    alex@example.com
-Password: password
-```
+## Screenshots
 
----
+### Login
 
-## Project Structure
+<img width="1437" height="743" alt="Screenshot 2026-05-11 at 9 49 34 PM" src="https://github.com/user-attachments/assets/6a9dd850-6618-4997-a8fe-65743a943ea6" />
 
-```
-src/
-├── context/
-│   └── AppContext.jsx     # Global state: auth, projects, tasks, notifications
-├── data/
-│   └── mockData.js        # Seed data (users, projects, tasks, notifications)
-├── components/
-│   ├── Layout.jsx         # Page wrapper with Nav + Footer
-│   ├── Nav.jsx            # Sticky top navigation
-│   ├── Footer.jsx
-│   └── Badge.jsx          # Status/label pill
-└── pages/
-    ├── Landing.jsx
-    ├── Login.jsx
-    ├── Signup.jsx
-    ├── Dashboard.jsx
-    ├── Projects.jsx
-    ├── CreateProject.jsx
-    ├── ProjectDetail.jsx  # With Add Task + Invite Member modals
-    ├── TaskEdit.jsx
-    ├── MyTasks.jsx        # Personal task list with filter pills
-    ├── Notifications.jsx
-    └── Profile.jsx
-```
+### Dashboard
 
----
+<img width="1432" height="738" alt="Screenshot 2026-05-11 at 9 50 44 PM" src="https://github.com/user-attachments/assets/b2e499f4-b7f0-4ba4-927d-b8dc28eaad53" />
 
-## Deploy to GitHub Pages
 
-```bash
-# One-time setup: update vite.config.js base to match your repo name
-# Then:
-npm run deploy
-```
 
-Live at: `https://<your-username>.github.io/tasksplit/`
 
----
 
-## Tech Stack
-- **React 18** + **React Router 6**
-- **Vite 5**
-- **Tailwind CSS 3**
-- **DM Sans** + **Nunito** (Google Fonts)
-- State: React Context (no external state library)
-- Data: in-memory mock data (no backend required)
