@@ -14,7 +14,7 @@ Collaborative task management web application built with React, Supabase, and Az
 - Azure Static Web Apps
 
 ## Live Website
-https://www.task-split.app
+https://task-split.app
 
 ## Running Locally
 
